@@ -1,5 +1,5 @@
 use std::io::prelude::*;
-use std::net::{TcpListener, TcpStream};
+use std::net::{SocketAddr, TcpListener, TcpStream};
 
 fn handle_client(mut stream: TcpStream) {
     let a = b"shoudao\n";
@@ -9,14 +9,20 @@ fn handle_client(mut stream: TcpStream) {
     println!("hello?");
 }
 
-fn connect_to_host() {
-    let mut stream = TcpStream::connect("127.0.0.1:9527").unwrap();
-    let a = b"fasong\n";
-    let _ = stream.write(a);
-    let _ = stream.read(&mut [0; 128]);
+fn connect_to_host(_addr: &SocketAddr) {
+    if let Ok(stream) = TcpStream::connect("127.0.0.1:8080") {
+        println!("Connected to the server!");
+        println!("{:?}", stream);
+    } else {
+        println!("wrong")
+    }
 }
 
 fn main() {
+    let test_Socket = SocketAddr::from(([172, 217, 161, 78], 8080));
+
+    connect_to_host(&test_Socket);
+    /*
     let listener = TcpListener::bind("127.0.0.1:9527").unwrap();
     let mut stream = TcpStream::connect("127.0.0.1:9527").unwrap();
     let a = b"fasong\n";
@@ -29,5 +35,5 @@ fn main() {
             }
             Err(_) => println!("error"),
         }
-    }
+    }*/
 }
