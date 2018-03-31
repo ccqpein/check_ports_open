@@ -9,8 +9,8 @@ fn handle_client(mut stream: TcpStream) {
     println!("hello?");
 }
 
-fn connect_to_host(_addr: &SocketAddr) {
-    if let Ok(stream) = TcpStream::connect("127.0.0.1:8080") {
+fn connect_to_host(addr: &SocketAddr) {
+    if let Ok(stream) = TcpStream::connect(addr) {
         println!("Connected to the server!");
         println!("{:?}", stream);
     } else {
@@ -19,7 +19,7 @@ fn connect_to_host(_addr: &SocketAddr) {
 }
 
 fn main() {
-    let test_Socket = SocketAddr::from(([172, 217, 161, 78], 8080));
+    let test_socket = SocketAddr::from(([127, 0, 0, 1], 8080));
 
     connect_to_host(&test_Socket);
     /*
