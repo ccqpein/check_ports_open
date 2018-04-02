@@ -4,3 +4,4 @@ version = "0.1.0"
 authors = ["ccQ <ccq777@gmail.com>"]
 
 [dependencies]
+json-api = "0.4.1"
