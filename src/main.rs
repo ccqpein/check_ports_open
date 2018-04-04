@@ -12,7 +12,10 @@ fn read_file(filename: &str) -> String {
     contents
 }
 
-fn parse_file(filename: &str) {}
+fn parse_file(filename: &str) {
+    let mut contents = read_file(filename);
+    // json struct.new() to create json file
+}
 
 fn check_connect_to_host(addr: &SocketAddr) -> bool {
     if let Ok(_) = TcpStream::connect(addr) {
