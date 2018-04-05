@@ -17,6 +17,14 @@ fn parse_file(filename: &str) {
     // json struct.new() to create json file
 }
 
+#[macro_use]
+extern crate json_api;
+
+struct Test {
+    id: i64,
+    body: String,
+}
+
 fn check_connect_to_host(addr: &SocketAddr) -> bool {
     if let Ok(_) = TcpStream::connect(addr) {
         println!("Connected to the server!");
