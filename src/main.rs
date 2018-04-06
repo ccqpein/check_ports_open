@@ -2,6 +2,10 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::net::{SocketAddr, TcpStream};
 
+// try type alias
+type Ports = Vec<&str>
+type Hosts = Vec<&str>
+
 fn read_file(filename: &str) -> String {
     let mut f = File::open(filename).expect("cannot find file");
 
