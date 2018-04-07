@@ -3,8 +3,8 @@ use std::io::prelude::*;
 use std::net::{SocketAddr, TcpStream};
 
 // try type alias
-type Ports = Vec<&str>
-type Hosts = Vec<&str>
+type Ports<'a> = Vec<&'a str>;
+type Hosts<'a> = Vec<&'a str>;
 
 fn read_file(filename: &str) -> String {
     let mut f = File::open(filename).expect("cannot find file");
