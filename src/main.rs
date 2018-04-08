@@ -1,9 +1,10 @@
 use std::fs::File;
 use std::io::prelude::*;
-use std::net::{SocketAddr, TcpStream};
+use std::net::{IpAddr, SocketAddr, TcpStream};
+use std::str::FromStr;
 
 // try type alias
-type Ports<'a> = Vec<&'a str>;
+type Ports = Vec<u16>;
 type Hosts<'a> = Vec<&'a str>;
 
 fn read_file(filename: &str) -> String {
@@ -21,15 +22,21 @@ fn parse_file(filename: &str) {
     // json struct.new() to create json file
 }
 
-#[macro_use]
-extern crate json_api;
+fn create_socket_addr(hosts: &Hosts, ports: &Ports) -> Vec<SocketAddr> {
+    let mut socket_addrs = Vec::new();
 
-struct Test {
-    id: i64,
-    body: String,
+    for host in hosts {
+        for port in ports {
+            if let Ok(ip_addr) = IpAddr::from_str(*host) {
+                socket_addrs.push(SocketAddr::new(ip_addr, *port));
+            }
+        }
+    }
+    socket_addrs
 }
 
 fn check_connect_to_host(addr: &SocketAddr) -> bool {
+    println!("host is {}, port is {}\n", addr.ip(), addr.port());
     if let Ok(_) = TcpStream::connect(addr) {
         println!("Connected to the server!");
         true
@@ -40,9 +47,15 @@ fn check_connect_to_host(addr: &SocketAddr) -> bool {
 }
 
 fn main() {
-    let test_socket = SocketAddr::from(([127, 0, 0, 1], 8080));
+    //let test_socket = SocketAddr::from(([127, 0, 0, 1], 8080));
+    let hosts = vec!["127.0.0.1", "127.0.0.1"];
+    let ports = vec![8080, 8081];
 
-    check_connect_to_host(&test_socket);
+    let sockets = create_socket_addr(&hosts, &ports);
 
-    println!("{}", read_file("LICENSE"))
+    for socket in sockets {
+        check_connect_to_host(&socket);
+    }
+
+    //println!("{}", read_file("LICENSE"))
 }
