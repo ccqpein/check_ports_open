@@ -35,8 +35,9 @@ fn create_socket_addr(hosts: &Hosts, ports: &Ports) -> Vec<SocketAddr> {
     socket_addrs
 }
 
+//:= TODO: learn how to use [test]
 fn check_connect_to_host(addr: &SocketAddr) -> bool {
-    println!("host is {}, port is {}\n", addr.ip(), addr.port());
+    //println!("host is {}, port is {}\n", addr.ip(), addr.port());
     if let Ok(_) = TcpStream::connect(addr) {
         println!("Connected to the server!");
         true
@@ -47,7 +48,7 @@ fn check_connect_to_host(addr: &SocketAddr) -> bool {
 }
 
 fn main() {
-    //let test_socket = SocketAddr::from(([127, 0, 0, 1], 8080));
+    //:= TODO: read hosts && ports file
     let hosts = vec!["127.0.0.1", "127.0.0.1"];
     let ports = vec![8080, 8081];
 
