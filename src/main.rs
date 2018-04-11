@@ -17,9 +17,8 @@ fn read_file(filename: &str) -> String {
     contents
 }
 
-fn parse_file(filename: &str) {
-    let mut contents = read_file(filename);
-    // json struct.new() to create json file
+fn parse_file(contents: &str) {
+    contents.split(|c| c == ' ' || c == '\n').collect();
 }
 
 fn create_socket_addr(hosts: &Hosts, ports: &Ports) -> Vec<SocketAddr> {
