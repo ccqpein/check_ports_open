@@ -7,6 +7,12 @@ use std::str::FromStr;
 type Ports = Vec<u16>;
 type Hosts<'a> = Vec<&'a str>;
 
+impl Ports {
+    fn new(p: Vec<&str>) -> Ports {
+        p.map(|s| s.parse::<u16>()).collect();
+    }
+}
+
 fn read_file(filename: &str) -> String {
     let mut f = File::open(filename).expect("cannot find file");
 
@@ -17,8 +23,12 @@ fn read_file(filename: &str) -> String {
     contents
 }
 
-fn parse_file(contents: &str) {
-    contents.split(|c| c == ' ' || c == '\n').collect();
+fn parse_file(contents: &str) -> Vec<&str> {
+    let result = contents
+        .split(|c| c == ' ' || c == '\n')
+        .filter(|c| *c != "")
+        .collect::<Vec<&str>>();
+    result
 }
 
 fn create_socket_addr(hosts: &Hosts, ports: &Ports) -> Vec<SocketAddr> {
@@ -57,5 +67,7 @@ fn main() {
         check_connect_to_host(&socket);
     }
 
-    //println!("{}", read_file("LICENSE"))
+    //println!("{}", read_file("hosts"));
+    println!("{:?}", parse_file(&read_file("hosts")));
+    println!("{:?}", parse_file(&read_file("ports")));
 }
