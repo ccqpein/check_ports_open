@@ -4,14 +4,8 @@ use std::net::{IpAddr, SocketAddr, TcpStream};
 use std::str::FromStr;
 
 // try type alias
-type Ports = Vec<u16>;
+type Ports<'a> = Vec<&'a str>;
 type Hosts<'a> = Vec<&'a str>;
-
-impl Ports {
-    fn new(p: Vec<&str>) -> Ports {
-        p.map(|s| s.parse::<u16>()).collect();
-    }
-}
 
 fn read_file(filename: &str) -> String {
     let mut f = File::open(filename).expect("cannot find file");
@@ -37,7 +31,7 @@ fn create_socket_addr(hosts: &Hosts, ports: &Ports) -> Vec<SocketAddr> {
     for host in hosts {
         for port in ports {
             if let Ok(ip_addr) = IpAddr::from_str(*host) {
-                socket_addrs.push(SocketAddr::new(ip_addr, *port));
+                socket_addrs.push(SocketAddr::new(ip_addr, port.parse::<u16>().unwrap()));
             }
         }
     }
@@ -58,8 +52,14 @@ fn check_connect_to_host(addr: &SocketAddr) -> bool {
 
 fn main() {
     //:= TODO: read hosts && ports file
-    let hosts = vec!["127.0.0.1", "127.0.0.1"];
-    let ports = vec![8080, 8081];
+    //let hosts = vec!["127.0.0.1", "127.0.0.1", "172.217.10.46"];
+    //let ports = vec!["80"];
+
+    let hosts_file = read_file("hosts");
+    let ports_file = read_file("ports");
+
+    let hosts = parse_file(&hosts_file);
+    let ports = parse_file(&ports_file);
 
     let sockets = create_socket_addr(&hosts, &ports);
 
@@ -68,6 +68,6 @@ fn main() {
     }
 
     //println!("{}", read_file("hosts"));
-    println!("{:?}", parse_file(&read_file("hosts")));
-    println!("{:?}", parse_file(&read_file("ports")));
+    //println!("{:?}", parse_file(&read_file("hosts")));
+    //println!("{:?}", parse_file(&read_file("ports")));
 }
