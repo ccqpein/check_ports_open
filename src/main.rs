@@ -51,10 +51,6 @@ fn check_connect_to_host(addr: &SocketAddr) -> bool {
 }
 
 fn main() {
-    //:= TODO: read hosts && ports file
-    //let hosts = vec!["127.0.0.1", "127.0.0.1", "172.217.10.46"];
-    //let ports = vec!["80"];
-
     let hosts_file = read_file("hosts");
     let ports_file = read_file("ports");
 
@@ -66,8 +62,4 @@ fn main() {
     for socket in sockets {
         check_connect_to_host(&socket);
     }
-
-    //println!("{}", read_file("hosts"));
-    //println!("{:?}", parse_file(&read_file("hosts")));
-    //println!("{:?}", parse_file(&read_file("ports")));
 }
