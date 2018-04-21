@@ -7,7 +7,7 @@ use std::str::FromStr;
 type Ports<'a> = Vec<&'a str>;
 type Hosts<'a> = Vec<&'a str>;
 
-fn read_file(filename: &str) -> String {
+pub fn read_file(filename: &str) -> String {
     let mut f = File::open(filename).expect("cannot find file");
 
     let mut contents = String::new();
@@ -17,7 +17,7 @@ fn read_file(filename: &str) -> String {
     contents
 }
 
-fn parse_file(contents: &str) -> Vec<&str> {
+pub fn parse_file(contents: &str) -> Vec<&str> {
     let result = contents
         .split(|c| c == ' ' || c == '\n')
         .filter(|c| *c != "")
@@ -25,7 +25,7 @@ fn parse_file(contents: &str) -> Vec<&str> {
     result
 }
 
-fn create_socket_addr(hosts: &Hosts, ports: &Ports) -> Vec<SocketAddr> {
+pub fn create_socket_addr(hosts: &Hosts, ports: &Ports) -> Vec<SocketAddr> {
     let mut socket_addrs = Vec::new();
 
     for host in hosts {
@@ -39,7 +39,7 @@ fn create_socket_addr(hosts: &Hosts, ports: &Ports) -> Vec<SocketAddr> {
 }
 
 //:= TODO: learn how to use [test]
-fn check_connect_to_host(addr: &SocketAddr) -> bool {
+pub fn check_connect_to_host(addr: &SocketAddr) -> bool {
     //println!("host is {}, port is {}\n", addr.ip(), addr.port());
     if let Ok(_) = TcpStream::connect(addr) {
         println!("Connected to the server!");
@@ -47,19 +47,5 @@ fn check_connect_to_host(addr: &SocketAddr) -> bool {
     } else {
         println!("wrong");
         false
-    }
-}
-
-fn main() {
-    let hosts_file = read_file("hosts");
-    let ports_file = read_file("ports");
-
-    let hosts = parse_file(&hosts_file);
-    let ports = parse_file(&ports_file);
-
-    let sockets = create_socket_addr(&hosts, &ports);
-
-    for socket in sockets {
-        check_connect_to_host(&socket);
     }
 }

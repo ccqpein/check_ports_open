@@ -1,5 +1,6 @@
 extern crate check_ports_open;
 
+#[test]
 fn demo() {
-    assert!(1 == 2);
+    assert!(true);
 }

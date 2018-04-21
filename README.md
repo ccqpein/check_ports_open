@@ -3,6 +3,6 @@
 Write this tool for practising rust.
 
 To learn:
-+ panic rule
-+ (unit) test
-+ cargo build rule
++ ~~panic rule~~
++ ~~(unit) test~~
++ cargo cross platform build 
