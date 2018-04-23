@@ -10,7 +10,6 @@ fn main() {
     let ports = check_ports_open::parse_file(&ports_file);
 
     let sockets = check_ports_open::create_socket_addr(&hosts, &ports);
-
     for socket in sockets {
         check_ports_open::check_connect_to_host(&socket);
     }

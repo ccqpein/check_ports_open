@@ -2,6 +2,7 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::net::{IpAddr, SocketAddr, TcpStream};
 use std::str::FromStr;
+use std::time::Duration;
 
 // try type alias
 type Ports<'a> = Vec<&'a str>;
@@ -32,6 +33,8 @@ pub fn create_socket_addr(hosts: &Hosts, ports: &Ports) -> Vec<SocketAddr> {
         for port in ports {
             if let Ok(ip_addr) = IpAddr::from_str(*host) {
                 socket_addrs.push(SocketAddr::new(ip_addr, port.parse::<u16>().unwrap()));
+            } else {
+                panic!("looks something wrong in host");
             }
         }
     }
@@ -40,8 +43,8 @@ pub fn create_socket_addr(hosts: &Hosts, ports: &Ports) -> Vec<SocketAddr> {
 
 //:= TODO: learn how to use [test]
 pub fn check_connect_to_host(addr: &SocketAddr) -> bool {
-    //println!("host is {}, port is {}\n", addr.ip(), addr.port());
-    if let Ok(_) = TcpStream::connect(addr) {
+    println!("connecting {}:{}", addr.ip(), addr.port());
+    if let Ok(_) = TcpStream::connect_timeout(addr, Duration::new(3, 0)) {
         println!("Connected to the server!");
         true
     } else {
