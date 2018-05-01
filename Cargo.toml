@@ -1,7 +1,4 @@
 [package]
 name = "check_ports_open"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["ccQpein github/ccqpein"]
-
-[dependencies]
-json-api = "0.4.1"
