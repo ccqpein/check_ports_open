@@ -41,7 +41,6 @@ pub fn create_socket_addr(hosts: &Hosts, ports: &Ports) -> Vec<SocketAddr> {
     socket_addrs
 }
 
-//:= TODO: learn how to use [test]
 pub fn check_connect_to_host(addr: &SocketAddr) -> bool {
     println!("connecting {}:{}", addr.ip(), addr.port());
     if let Ok(_) = TcpStream::connect_timeout(addr, Duration::new(3, 0)) {
