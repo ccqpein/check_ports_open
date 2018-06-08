@@ -2,6 +2,7 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::net::{IpAddr, SocketAddr, TcpStream};
 use std::str::FromStr;
+use std::thread;
 use std::time::Duration;
 
 // try type alias
@@ -42,12 +43,27 @@ pub fn create_socket_addr(hosts: &Hosts, ports: &Ports) -> Vec<SocketAddr> {
 }
 
 pub fn check_connect_to_host(addr: &SocketAddr) -> bool {
-    println!("connecting {}:{}", addr.ip(), addr.port());
     if let Ok(_) = TcpStream::connect_timeout(addr, Duration::new(3, 0)) {
-        println!("Connected to the server!");
+        println!("Connected to the server! {}", addr);
         true
     } else {
-        println!("wrong");
+        println!("wrong with {}", addr);
         false
+    }
+}
+
+pub fn check_connect_to_host_concurrent(hosts: &Hosts, ports: &Ports) {
+    let sockets = create_socket_addr(hosts, ports);
+    let mut children = vec![];
+
+    for s in sockets {
+        children.push(thread::spawn(move || {
+            check_connect_to_host(&s);
+            thread::sleep(Duration::from_secs(1));
+        }))
+    }
+
+    for c in children {
+        c.join().unwrap();
     }
 }
