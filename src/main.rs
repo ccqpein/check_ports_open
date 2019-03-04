@@ -1,5 +1,3 @@
-extern crate check_ports_open;
-
 use check_ports_open::*;
 
 fn main() {
